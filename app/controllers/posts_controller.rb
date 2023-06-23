@@ -10,8 +10,11 @@ class PostsController < ApplicationController
     post = Post.find(params[:id])
 
     post.update(post_params)
-
-    render json: post
+    if post.update(post_params)
+      render json: post
+    else
+      render json: { errors: post.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
